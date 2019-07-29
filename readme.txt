@@ -1,7 +1,7 @@
 === Development Protection ===
-Contributors: (this should be a list of wordpress.org userid's)
-Donate link: https://example.com/
-Tags: comments, spam
+Contributors: paulswarthout
+Donate link: https://www.paypal.me/PaulSwarthout
+Tags: WordPress Development Solutions
 Requires at least: 4.5
 Tested up to: 5.2.2
 Stable tag: 0.1.0
