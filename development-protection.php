@@ -50,13 +50,16 @@ add_action( 'admin_menu', 'pas_dp_dashboard_menu' );
 add_filter( 'plugin_action_links', 'check_for_git_folder', 10, 2 );
 
 function check_for_git_folder( $actions, $plugin_file ) {
+	$full_path = dirname( WP_PLUGIN_DIR . "/{$plugin_file}" ) . "/.git";
 	if ( array_key_exists( 'delete', $actions ) ) {
-
-		$full_path = dirname( WP_PLUGIN_DIR . "/{$plugin_file}" ) . "/.git";
-
 		if ( file_exists( $full_path ) ) {
 			unset( $actions['delete'] );
 		}
+	}
+	if (file_exists($full_path)) {
+		$path = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $_SERVER['PHP_SELF'];
+//		$actions['development'] = "<a href='{$path}'>Development</a>";
+		$actions['development'] = "<font style='color:red;'>SYMLINK</font>";
 	}
 	return $actions;
 }
