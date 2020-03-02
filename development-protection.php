@@ -56,6 +56,9 @@ function check_for_git_folder( $actions, $plugin_file ) {
 			unset( $actions['delete'] );
 		}
 	}
+	if ( array_key_exists('deactivate', $actions) && strpos($plugin_file, 'development-protection') !== false) {
+		unset($actions['deactivate']);
+	}
 	if (file_exists($full_path)) {
 		$path = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $_SERVER['PHP_SELF'];
 //		$actions['development'] = "<a href='{$path}'>Development</a>";
