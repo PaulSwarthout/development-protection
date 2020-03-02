@@ -5,7 +5,7 @@
  * Description:     Hides the 'Delete' option on the WordPress dashboard Installed Plugins page for plugins with a '.git' subfolder.
  * Author:          Paul Swarthout
  * Author URI:      http://paulswarthout.com/wordpress/
- * Version:         1.0
+ * Version:         1.1
  */
 
 /*
