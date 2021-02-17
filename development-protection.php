@@ -44,10 +44,33 @@
  *
  */
 
+namespace development_protection;
+
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-add_action( 'admin_menu', 'pas_dp_dashboard_menu' );
-add_filter( 'plugin_action_links', 'check_for_git_folder', 10, 2 );
+//require_once( dirname( __FILE__ ) . '/symlinks.php');
+
+add_action( 'admin_menu', 			__NAMESPACE__ . '\pas_dp_dashboard_menu' );
+add_filter( 'plugin_action_links', 	__NAMESPACE__ . '\check_for_git_folder', 10, 2 );
+
+add_filter( 'plugin_action_links_development-protection/development-protection.php', __NAMESPACE__ . '\dp_pack_link' );
+
+function dp_pack_link( $links ) {
+	// Build and escape the URL.
+	$url = esc_url( add_query_arg(
+		'page',
+		'dp-pack',
+		get_admin_url() . 'admin.php'
+	) );
+	// Create the link.
+	$settings_link = "<a href='$url'>" . __( 'pack' ) . '</a>';
+	// Adds the link to the end of the array.
+	array_push(
+		$links,
+		$settings_link
+	);
+	return $links;
+}//end nc_settings_link()
 
 function check_for_git_folder( $actions, $plugin_file ) {
 	$full_path = dirname( WP_PLUGIN_DIR . "/{$plugin_file}" ) . "/.git";
@@ -62,13 +85,14 @@ function check_for_git_folder( $actions, $plugin_file ) {
 	if (file_exists($full_path)) {
 		$path = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $_SERVER['PHP_SELF'];
 //		$actions['development'] = "<a href='{$path}'>Development</a>";
-		$actions['development'] = "<font style='color:red;'>SYMLINK</font>";
+		$actions['development'] = "<font style='color:red;'>SYMLINK: DO NOT DELETE</font>";
+		$actions['pack'] = '';
 	}
 	return $actions;
 }
 function pas_dp_dashboard_menu() {
 	$page_title = 'pas-dp-development-protection-menu';
-	add_menu_page($page_title, "<font style='color:red;background-color:white;font-weight:bold;'>&nbsp;&nbsp;DevProt&nbsp;&nbsp;</font>", 'manage_options', 'development-protection', 'pas_dp_dev_prot', 'dashicons-arrow-right-alt', 0);
+	add_menu_page($page_title, "<font style='color:red;background-color:white;font-weight:bold;'>&nbsp;&nbsp;DevProt&nbsp;&nbsp;</font>", 'manage_options', 'development-protection', __NAMESPACE__ . '\pas_dp_dev_prot', 'dashicons-arrow-right-alt', 0);
 }
 function pas_dp_dev_prot() {
 	echo <<< "PROTECT"
